@@ -4,7 +4,6 @@ import { LabelStrip } from "@/components/LabelStrip";
 import { Showreel } from "@/components/Showreel";
 import { Services } from "@/components/Services";
 import { Testimonials } from "@/components/Testimonials";
-import { Coaching } from "@/components/Coaching";
 import { ContactSection } from "@/components/ContactSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SectionDivider } from "@/components/SectionDivider";
@@ -20,7 +19,6 @@ export default function Home() {
       <Services theme="light" />
       <SectionDivider direction="down" from="light" to="dark" />
       <Testimonials />
-      <Coaching />
       <SectionDivider direction="up" from="dark" to="light" />
       <ContactSection theme="light" />
       <SiteFooter theme="light" />
