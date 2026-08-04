@@ -1,9 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/70 px-6 py-5 backdrop-blur sm:px-12">
-      <a href="#top" className="shrink-0">
+      <Link href="/" className="shrink-0">
         <Image
           src="/brand/logo.png"
           alt="Mattia Saviolo"
@@ -12,7 +13,7 @@ export function SiteHeader() {
           className="h-auto w-[140px] sm:w-[180px]"
           priority
         />
-      </a>
+      </Link>
 
       <a
         href="#contact"

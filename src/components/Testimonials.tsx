@@ -63,7 +63,7 @@ export function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="border-t border-white/10 px-6 py-20 sm:px-12 lg:py-28"
+      className="px-6 py-20 sm:px-12 lg:py-28"
     >
       <h2 className="font-display text-4xl uppercase sm:text-5xl">
         What artists say.

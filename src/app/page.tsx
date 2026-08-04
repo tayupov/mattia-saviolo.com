@@ -7,6 +7,7 @@ import { Testimonials } from "@/components/Testimonials";
 import { Coaching } from "@/components/Coaching";
 import { ContactSection } from "@/components/ContactSection";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SectionDivider } from "@/components/SectionDivider";
 
 export default function Home() {
   return (
@@ -14,12 +15,15 @@ export default function Home() {
       <SiteHeader />
       <Hero />
       <LabelStrip />
-      <Showreel />
-      <Services />
+      <SectionDivider direction="up" from="dark" to="light" />
+      <Showreel theme="light" />
+      <Services theme="light" />
+      <SectionDivider direction="down" from="light" to="dark" />
       <Testimonials />
       <Coaching />
-      <ContactSection />
-      <SiteFooter />
+      <SectionDivider direction="up" from="dark" to="light" />
+      <ContactSection theme="light" />
+      <SiteFooter theme="light" />
     </div>
   );
 }

@@ -5,51 +5,44 @@ import { submitContactForm, type ContactFormState } from "@/app/actions/contact"
 
 const initialState: ContactFormState = { status: "idle" };
 
-export function ContactForm() {
+type ContactFormProps = {
+  theme?: "dark" | "light";
+};
+
+export function ContactForm({ theme = "dark" }: ContactFormProps) {
   const [state, formAction, pending] = useActionState(
     submitContactForm,
     initialState,
   );
+  const light = theme === "light";
+  const labelClass = `text-sm uppercase tracking-wider ${
+    light ? "text-black/60" : "text-white/60"
+  }`;
+  const fieldClass = `bg-transparent py-2 text-lg outline-none focus:border-accent ${
+    light ? "border-b border-black/20" : "border-b border-white/20"
+  }`;
 
   return (
     <form action={formAction} className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <label htmlFor="name" className="text-sm uppercase tracking-wider text-white/60">
+        <label htmlFor="name" className={labelClass}>
           Name
         </label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          required
-          className="border-b border-white/20 bg-transparent py-2 text-lg outline-none focus:border-accent"
-        />
+        <input id="name" name="name" type="text" required className={fieldClass} />
       </div>
 
       <div className="flex flex-col gap-2">
-        <label htmlFor="email" className="text-sm uppercase tracking-wider text-white/60">
+        <label htmlFor="email" className={labelClass}>
           Email
         </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          className="border-b border-white/20 bg-transparent py-2 text-lg outline-none focus:border-accent"
-        />
+        <input id="email" name="email" type="email" required className={fieldClass} />
       </div>
 
       <div className="flex flex-col gap-2">
-        <label htmlFor="message" className="text-sm uppercase tracking-wider text-white/60">
+        <label htmlFor="message" className={labelClass}>
           Message
         </label>
-        <textarea
-          id="message"
-          name="message"
-          required
-          rows={5}
-          className="border-b border-white/20 bg-transparent py-2 text-lg outline-none focus:border-accent"
-        />
+        <textarea id="message" name="message" required rows={5} className={fieldClass} />
       </div>
 
       <button

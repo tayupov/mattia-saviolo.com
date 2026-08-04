@@ -3,11 +3,19 @@
 import { useState } from "react";
 import Image from "next/image";
 
-export function Showreel() {
+type ShowreelProps = {
+  theme?: "dark" | "light";
+};
+
+export function Showreel({ theme = "dark" }: ShowreelProps) {
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
-    <section className="border-t border-white/10 px-6 py-20 sm:px-12 lg:py-28">
+    <section
+      className={`px-6 py-20 sm:px-12 lg:py-28 ${
+        theme === "light" ? "bg-white text-black" : ""
+      }`}
+    >
       <h2 className="text-center font-display text-4xl uppercase sm:text-5xl">
         In the studio.
       </h2>

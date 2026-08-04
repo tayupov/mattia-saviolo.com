@@ -30,13 +30,18 @@ const SERVICES = [
   },
 ];
 
-export function Services() {
+type ServicesProps = {
+  theme?: "dark" | "light";
+};
+
+export function Services({ theme = "dark" }: ServicesProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const light = theme === "light";
 
   return (
     <section
       id="services"
-      className="border-t border-white/10 px-6 py-20 sm:px-12 lg:py-28"
+      className={`px-6 py-20 sm:px-12 lg:py-28 ${light ? "bg-white text-black" : ""}`}
     >
       <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:gap-20">
         <div>
@@ -48,7 +53,11 @@ export function Services() {
             <br />
             the desk.
           </h2>
-          <p className="mt-6 max-w-md text-lg leading-relaxed text-white/70">
+          <p
+            className={`mt-6 max-w-md text-lg leading-relaxed ${
+              light ? "text-black/70" : "text-white/70"
+            }`}
+          >
             Berlin-based techno producer and mixing/mastering engineer, with
             releases on Drumcode, NINETOZERO, Tronic, Kraftek, and Factory
             93 — played at Tomorrowland and Ultra. Available remote or
@@ -56,7 +65,13 @@ export function Services() {
           </p>
         </div>
 
-        <ul className="divide-y divide-white/10 border-t border-white/10">
+        <ul
+          className={
+            light
+              ? "divide-y divide-black/10 border-t border-black/10"
+              : "divide-y divide-white/10 border-t border-white/10"
+          }
+        >
           {SERVICES.map((service, index) => {
             const isOpen = openIndex === index;
             return (
@@ -67,7 +82,11 @@ export function Services() {
                   aria-expanded={isOpen}
                   className="flex w-full flex-col gap-2 py-6 text-left sm:cursor-default sm:flex-row sm:items-baseline sm:gap-8"
                 >
-                  <span className="font-display text-lg text-white/30 sm:w-12 sm:shrink-0">
+                  <span
+                    className={`font-display text-lg sm:w-12 sm:shrink-0 ${
+                      light ? "text-black/30" : "text-white/30"
+                    }`}
+                  >
                     {service.number}
                   </span>
                   <span className="flex flex-1 items-center justify-between gap-4 sm:justify-start">
@@ -76,9 +95,9 @@ export function Services() {
                     </span>
                     <svg
                       viewBox="0 0 24 24"
-                      className={`h-5 w-5 shrink-0 text-white/40 transition-transform sm:hidden ${
-                        isOpen ? "rotate-45" : ""
-                      }`}
+                      className={`h-5 w-5 shrink-0 transition-transform sm:hidden ${
+                        light ? "text-black/40" : "text-white/40"
+                      } ${isOpen ? "rotate-45" : ""}`}
                       fill="none"
                       stroke="currentColor"
                       strokeWidth={2}
@@ -86,7 +105,11 @@ export function Services() {
                       <path strokeLinecap="square" d="M12 5v14M5 12h14" />
                     </svg>
                   </span>
-                  <span className="hidden text-white/60 sm:block sm:max-w-sm">
+                  <span
+                    className={`hidden sm:block sm:max-w-sm ${
+                      light ? "text-black/60" : "text-white/60"
+                    }`}
+                  >
                     {service.description}
                   </span>
                 </button>
@@ -96,7 +119,9 @@ export function Services() {
                   }`}
                 >
                   <div className="min-h-0">
-                    <p className="pl-0 text-white/60">{service.description}</p>
+                    <p className={`pl-0 ${light ? "text-black/60" : "text-white/60"}`}>
+                      {service.description}
+                    </p>
                   </div>
                 </div>
               </li>

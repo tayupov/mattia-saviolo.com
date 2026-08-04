@@ -4,7 +4,7 @@ export function Coaching() {
   return (
     <section
       id="coaching"
-      className="border-t border-white/10 bg-white/[0.03] px-6 py-20 sm:px-12 lg:py-28"
+      className="bg-white/[0.03] px-6 py-20 sm:px-12 lg:py-28"
     >
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center lg:gap-20">
         <div>

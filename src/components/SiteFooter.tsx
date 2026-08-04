@@ -82,9 +82,15 @@ const cornerClip = {
   clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%)",
 };
 
-export function SiteFooter() {
+type SiteFooterProps = {
+  theme?: "dark" | "light";
+};
+
+export function SiteFooter({ theme = "dark" }: SiteFooterProps) {
+  const light = theme === "light";
+
   return (
-    <footer className="mt-auto border-t border-white/10">
+    <footer className={`mt-auto ${light ? "bg-white text-black" : ""}`}>
       <div className="grid gap-14 px-6 py-16 sm:px-12 lg:grid-cols-[1.3fr_1fr_1fr] lg:gap-10 lg:py-20">
         <div>
           <Image
@@ -92,9 +98,9 @@ export function SiteFooter() {
             alt="Mattia Saviolo"
             width={220}
             height={30}
-            className="h-auto w-[170px]"
+            className={`h-auto w-[170px] ${light ? "invert" : ""}`}
           />
-          <p className="mt-6 max-w-xs text-sm leading-relaxed text-white/50">
+          <p className={`mt-6 max-w-xs text-sm leading-relaxed ${light ? "text-black/50" : "text-white/50"}`}>
             Techno production, mixing &amp; mastering — remote sessions
             worldwide.
           </p>
@@ -110,7 +116,9 @@ export function SiteFooter() {
                   rel="noreferrer"
                   aria-label={label}
                   style={cornerClip}
-                  className="group flex h-11 w-11 items-center justify-center border border-white/15 text-white/60 transition-colors hover:border-accent hover:bg-accent hover:text-black"
+                  className={`group flex h-11 w-11 items-center justify-center transition-colors hover:border-accent hover:bg-accent hover:text-black ${
+                    light ? "border border-black/15 text-black/60" : "border border-white/15 text-white/60"
+                  }`}
                 >
                   <Icon className="h-[18px] w-[18px]" />
                 </a>
@@ -120,10 +128,10 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h3 className="text-xs uppercase tracking-widest text-white/30">
+          <h3 className={`text-xs uppercase tracking-widest ${light ? "text-black/30" : "text-white/30"}`}>
             Explore
           </h3>
-          <ul className="mt-5 space-y-3 text-sm text-white/60">
+          <ul className={`mt-5 space-y-3 text-sm ${light ? "text-black/60" : "text-white/60"}`}>
             {EXPLORE_LINKS.map((link) => (
               <li key={link.href}>
                 <a
@@ -138,10 +146,10 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h3 className="text-xs uppercase tracking-widest text-white/30">
+          <h3 className={`text-xs uppercase tracking-widest ${light ? "text-black/30" : "text-white/30"}`}>
             Legal
           </h3>
-          <ul className="mt-5 space-y-3 text-sm text-white/60">
+          <ul className={`mt-5 space-y-3 text-sm ${light ? "text-black/60" : "text-white/60"}`}>
             {LEGAL_LINKS.map((link) => (
               <li key={link.href}>
                 <a
@@ -156,7 +164,11 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="border-t border-white/10 px-6 py-6 text-xs uppercase tracking-wider text-white/30 sm:px-12">
+      <div
+        className={`px-6 py-6 text-xs uppercase tracking-wider sm:px-12 ${
+          light ? "border-t border-black/10 text-black/30" : "border-t border-white/10 text-white/30"
+        }`}
+      >
         <p>&copy; {new Date().getFullYear()} Mattia Saviolo. All rights reserved.</p>
       </div>
     </footer>
