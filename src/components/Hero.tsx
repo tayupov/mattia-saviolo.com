@@ -31,12 +31,12 @@ export function Hero() {
           Mastering.
         </h1>
 
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-4">
           <p className="max-w-md border-l-2 border-accent pl-4 font-display text-2xl uppercase leading-tight text-accent sm:text-3xl">
             Join me in the studio.
           </p>
 
-          <dl className="grid grid-cols-3 gap-6 border-t border-white/20 pt-6">
+          <dl className="grid grid-cols-3 gap-6">
             {STATS.map((stat) => (
               <div key={stat.label}>
                 <dt className="font-display text-3xl text-accent sm:text-4xl">
