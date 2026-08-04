@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/70 px-6 py-5 backdrop-blur sm:px-12">
+    <header className="sticky top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/30 px-6 py-5 backdrop-blur-sm sm:px-12">
       <Link href="/" className="shrink-0">
         <Image
           src="/brand/logo.png"
