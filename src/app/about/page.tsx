@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
@@ -39,13 +40,11 @@ export default function AboutPage() {
                   Mattia Saviolo is a Berlin-based techno producer and
                   mixing/mastering engineer with over 20 years in the
                   industry. His music and mix work sit on labels like
-                  NINETOZERO, Tronic, Kraftek, and Factory 93, and his sets
-                  have taken him to stages including Tomorrowland and
+                  NINETOZERO, Tronic, Kraftek, and Factory 93, and have been played on stages including Awakenings, Tomorrowland and
                   Ultra.
                 </p>
                 <p>
-                  What started as a bedroom setup has turned into a
-                  full-service mix and mastering practice — trusted by
+                  This full-service mix and mastering practice is trusted by
                   artists who need masters that hold up in a club, on a
                   phone speaker, and everywhere in between. Alongside
                   production work, he runs 1:1 coaching sessions for
@@ -114,6 +113,19 @@ export default function AboutPage() {
               <span className="text-white/70">Management</span>
             </p>
           </div>
+        </section>
+
+        {/* CTA */}
+        <section className="px-6 py-8 text-center sm:px-12 sm:py-10">
+          <h2 className="font-display text-4xl uppercase leading-[0.95] sm:text-5xl">
+            Let&rsquo;s work on your sound.
+          </h2>
+          <Link
+            href="/#contact"
+            className="mt-8 inline-block bg-accent px-8 py-4 font-display text-base uppercase tracking-wide text-black transition-colors hover:bg-white sm:px-10 sm:text-lg"
+          >
+            Get in touch
+          </Link>
         </section>
       </main>
 
