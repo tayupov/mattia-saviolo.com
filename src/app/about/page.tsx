@@ -40,7 +40,7 @@ export default function AboutPage() {
                   Mattia Saviolo is a Berlin-based techno producer and
                   mixing/mastering engineer with over 20 years in the
                   industry. His music and mix work sit on labels like
-                  NINETOZERO, Tronic, Kraftek, and Factory 93, and have been played on stages including Awakenings, Tomorrowland and
+                  Drumcode, NINETOZERO, Tronic, Kraftek, and Factory 93, and have been played on stages including Awakenings, Tomorrowland and
                   Ultra.
                 </p>
                 <p>

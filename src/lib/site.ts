@@ -1,4 +1,8 @@
-export const SITE_URL = "https://mattia-saviolo.com";
+// Must match the canonical host Vercel actually serves (www) — the apex
+// domain 308-redirects here, and link-preview crawlers (WhatsApp, etc.)
+// don't reliably follow redirects when fetching og:image, so metadata URLs
+// need to point straight at this host to avoid a broken/missing preview.
+export const SITE_URL = "https://www.mattia-saviolo.com";
 
 export const SITE_DESCRIPTION =
   "Berlin-based techno producer and mixing/mastering engineer with 15+ years of studio experience. Releases on NINETOZERO, Tronic, Kraftek, Factory 93. Sessions are limited — book now.";
