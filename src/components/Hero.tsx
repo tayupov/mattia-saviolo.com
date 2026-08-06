@@ -16,8 +16,8 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent" />
 
-      {/* Mobile: headline pinned to top, subtitle + stats pinned to bottom */}
-      <div className="relative z-10 flex flex-1 flex-col justify-between px-6 pt-6 pb-14 sm:px-12 sm:pt-8 lg:hidden">
+      {/* Mobile: headline + subtitle grouped at top */}
+      <div className="relative z-10 flex flex-1 flex-col px-6 pt-6 pb-14 sm:px-12 sm:pt-8 lg:hidden">
         <h1 className="font-display text-[13vw] uppercase leading-[0.85] sm:text-[8vw]">
           Production.
           <br />
@@ -26,7 +26,7 @@ export function Hero() {
           Mastering.
         </h1>
 
-        <p className="max-w-md border-l-2 border-accent pl-4 font-display text-2xl uppercase leading-tight text-accent sm:text-3xl">
+        <p className="mt-6 max-w-md border-l-2 border-accent pl-4 font-display text-2xl uppercase leading-tight text-accent sm:text-3xl">
           Join me in the studio.
         </p>
       </div>

@@ -19,3 +19,14 @@ body {
   color: var(--foreground);
   font-family: var(--font-body), Arial, Helvetica, sans-serif;
 }
+
+/* Services marquee: track is the label list duplicated once, so a 50%
+   translate loops seamlessly back to the start. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

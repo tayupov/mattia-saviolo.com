@@ -1,6 +1,7 @@
 import { SiteHeader } from "@/components/SiteHeader";
 import { Hero } from "@/components/Hero";
 import { LabelStrip } from "@/components/LabelStrip";
+import { Portfolio } from "@/components/Portfolio";
 import { Showreel } from "@/components/Showreel";
 import { Services } from "@/components/Services";
 import { Testimonials } from "@/components/Testimonials";
@@ -13,6 +14,7 @@ export default function Home() {
     <div className="flex flex-1 flex-col">
       <SiteHeader />
       <Hero />
+      <Portfolio />
       <LabelStrip />
       <SectionDivider direction="up" from="dark" to="light" />
       <Showreel theme="light" />

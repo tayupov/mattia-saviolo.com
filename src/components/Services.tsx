@@ -20,17 +20,16 @@ const SERVICES = [
   },
   {
     number: "04",
-    name: "Melodic composition",
-    description: "Hooks and progressions written into your arrangement.",
-  },
-  {
-    number: "05",
     name: "Arrangement editing",
     description: "Creative structure that keeps a floor moving from intro to outro.",
   },
+  {
+    number: "05",
+    name: "1:1 coaching & co-production",
+    description:
+      "Learn sound design, low-end power, mixing, and finishing — while we work on your own tracks. In-studio in Berlin or remote via video call.",
+  },
 ];
-
-const COACHING_TOPICS = ["Sound design", "Low-end power", "Mixing", "Finishing tracks"];
 
 type ServicesProps = {
   theme?: "dark" | "light";
@@ -76,8 +75,13 @@ export function Services({ theme = "dark" }: ServicesProps) {
         >
           {SERVICES.map((service, index) => {
             const isOpen = openIndex === index;
+            const isCoaching = service.number === "05";
             return (
-              <li key={service.number} className="group">
+              <li
+                key={service.number}
+                id={isCoaching ? "coaching" : undefined}
+                className="group"
+              >
                 <button
                   type="button"
                   onClick={() => setOpenIndex(isOpen ? null : index)}
@@ -129,49 +133,6 @@ export function Services({ theme = "dark" }: ServicesProps) {
               </li>
             );
           })}
-        </ul>
-      </div>
-
-      <div
-        id="coaching"
-        className={`mt-16 grid gap-10 border-t pt-16 lg:mt-20 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center lg:gap-20 lg:pt-20 ${
-          light ? "border-black/10" : "border-white/10"
-        }`}
-      >
-        <div>
-          <h2 className="font-display text-4xl uppercase leading-[0.95] sm:text-5xl">
-            1:1 coaching
-            <br />
-            <span className="text-accent">&amp; co-production.</span>
-          </h2>
-          <p
-            className={`mt-6 max-w-lg text-lg leading-relaxed ${
-              light ? "text-black/70" : "text-white/70"
-            }`}
-          >
-            Learn sound design, low-end power, mixing, and finishing — while
-            we work on your own tracks. In-studio in Berlin or remote via
-            video call.
-          </p>
-          <a
-            href="#contact"
-            className={`mt-8 inline-block border px-6 py-3 text-sm uppercase tracking-wider transition-colors hover:border-accent hover:text-accent ${
-              light ? "border-black/30" : "border-white/30"
-            }`}
-          >
-            Book a session
-          </a>
-        </div>
-
-        <ul className="flex flex-wrap gap-3">
-          {COACHING_TOPICS.map((topic) => (
-            <li
-              key={topic}
-              className="border border-accent/40 px-5 py-3 font-display text-lg uppercase text-accent"
-            >
-              {topic}
-            </li>
-          ))}
         </ul>
       </div>
     </section>

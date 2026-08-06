@@ -15,12 +15,22 @@ export function SiteHeader() {
         />
       </Link>
 
-      <a
-        href="#contact"
-        className="shrink-0 bg-accent px-4 py-2 text-sm uppercase tracking-wider text-black transition-opacity hover:opacity-90"
-      >
-        Book a session
-      </a>
+      <nav className="flex items-center gap-6 sm:gap-8">
+        <Link
+          href="/about"
+          className="hidden font-display text-sm uppercase tracking-wide text-white/70 transition-colors hover:text-accent sm:block"
+        >
+          About
+        </Link>
+
+        <Link
+          href="/#contact"
+          className="shrink-0 bg-accent px-5 py-3 font-display text-sm uppercase tracking-wide text-black transition-colors hover:bg-white sm:px-6 sm:text-base"
+          style={{ clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)" }}
+        >
+          Contact
+        </Link>
+      </nav>
     </header>
   );
 }
