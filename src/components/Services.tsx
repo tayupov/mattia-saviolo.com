@@ -49,7 +49,7 @@ export function Services({ theme = "dark" }: ServicesProps) {
       <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:gap-20">
         <div>
           <span className="font-display text-6xl text-accent sm:text-7xl">
-            20+
+            15+
           </span>
           <h2 className="mt-4 font-display text-4xl uppercase leading-[0.95] sm:text-5xl">
             Years behind the desk.
@@ -61,7 +61,7 @@ export function Services({ theme = "dark" }: ServicesProps) {
           >
             Berlin-based techno producer and mixing/mastering engineer, with
             releases on Drumcode, NINETOZERO, Tronic, Kraftek, and Factory
-            93 — played at Tomorrowland and Ultra. Available remote or
+            93 — played at Awakenings, Tomorrowland and Ultra. Available remote or
             in-studio in Berlin.
           </p>
         </div>

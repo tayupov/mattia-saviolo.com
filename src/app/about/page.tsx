@@ -7,7 +7,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Berlin-based techno producer and mixing/mastering engineer Mattia Saviolo — 20+ years behind the desk, releases on NINETOZERO, Tronic, Kraftek, and Factory 93.",
+    "Berlin-based techno producer and mixing/mastering engineer Mattia Saviolo — 15+ years behind the desk, releases on NINETOZERO, Tronic, Kraftek, and Factory 93.",
   alternates: { canonical: "/about" },
 };
 
@@ -30,7 +30,7 @@ export default function AboutPage() {
           <div className="grid gap-12 px-6 sm:px-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-16">
             <div className="order-2 lg:order-1">
               <h1 className="font-display text-5xl uppercase leading-[0.9] sm:text-6xl lg:text-7xl">
-                Twenty years
+                Fifteen years
                 <br />
                 behind the desk.
               </h1>
@@ -38,7 +38,7 @@ export default function AboutPage() {
               <div className="mt-8 space-y-6 text-lg leading-relaxed text-white/70">
                 <p>
                   Mattia Saviolo is a Berlin-based techno producer and
-                  mixing/mastering engineer with over 20 years in the
+                  mixing/mastering engineer with over 15 years in the
                   industry. His music and mix work sit on labels like
                   Drumcode, NINETOZERO, Tronic, Kraftek, and Factory 93, and have been played on stages including Awakenings, Tomorrowland and
                   Ultra.
@@ -97,13 +97,13 @@ export default function AboutPage() {
             Team
           </h2>
 
-          <div className="mx-auto mt-12 flex max-w-xs flex-col items-center">
+          <div className="mx-auto mt-12 flex max-w-64 flex-col items-center">
             <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-white/5 grayscale">
               <Image
                 src="/roman-headshot.jpg"
                 alt="Roman"
                 fill
-                sizes="(min-width: 640px) 20rem, 100vw"
+                sizes="16rem"
                 className="object-cover"
               />
             </div>
