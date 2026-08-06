@@ -75,7 +75,7 @@ export default function AboutPage() {
           </div>
 
           {/* Services */}
-          <div className="mt-4 overflow-hidden pt-2 pb-10 sm:mt-auto">
+          <div className="mt-16 overflow-hidden pt-2 pb-10 sm:mt-auto">
             <div className="flex w-max animate-[marquee_28s_linear_infinite] items-center gap-10 hover:[animation-play-state:paused] sm:gap-16">
               {[...SERVICES, ...SERVICES].map((service, index) => (
                 <div key={`${service}-${index}`} className="flex items-center gap-10 sm:gap-16">
