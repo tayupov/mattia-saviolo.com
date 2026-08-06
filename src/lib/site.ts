@@ -5,7 +5,7 @@
 export const SITE_URL = "https://www.mattia-saviolo.com";
 
 export const SITE_DESCRIPTION =
-  "Berlin-based techno producer and mixing/mastering engineer with 15+ years of studio experience. Releases on NINETOZERO, Tronic, Kraftek, Factory 93. Sessions are limited — book now.";
+  "Berlin-based techno producer and mixing/mastering engineer with 15+ years of studio experience. Releases on Drumcode, NINETOZERO, Tronic, Kraftek, Factory 93. Sessions are limited — book now.";
 
 export const SOCIAL_LINKS = [
   { label: "Soundcloud", href: "https://soundcloud.com/mattiasaviolo" },
