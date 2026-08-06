@@ -15,19 +15,21 @@ const SERVICES = [
   },
   {
     number: "03",
-    name: "Sound design",
-    description: "Custom patches, low-ends, and textures built from scratch.",
+    name: "1:1 coaching &\nco-production",
+    description:
+      "Learn sound design, low-end power, mixing, and finishing — while we work on your own tracks. In-studio in Berlin or remote via video call.",
   },
   {
     number: "04",
-    name: "Arrangement editing",
-    description: "Creative structure that keeps a floor moving from intro to outro.",
+    name: "Track feedback",
+    description:
+      "Send a track, get honest, detailed notes on the mix, arrangement, and whether it's ready for release.",
   },
   {
     number: "05",
-    name: "1:1 coaching & co-production",
+    name: "Industry insights",
     description:
-      "Learn sound design, low-end power, mixing, and finishing — while we work on your own tracks. In-studio in Berlin or remote via video call.",
+      "How to approach labels, write emails that get replies, and navigate a release from demo to drop.",
   },
 ];
 
@@ -50,9 +52,7 @@ export function Services({ theme = "dark" }: ServicesProps) {
             20+
           </span>
           <h2 className="mt-4 font-display text-4xl uppercase leading-[0.95] sm:text-5xl">
-            Years behind
-            <br />
-            the desk.
+            Years behind the desk.
           </h2>
           <p
             className={`mt-6 max-w-md text-lg leading-relaxed ${
@@ -75,7 +75,7 @@ export function Services({ theme = "dark" }: ServicesProps) {
         >
           {SERVICES.map((service, index) => {
             const isOpen = openIndex === index;
-            const isCoaching = service.number === "05";
+            const isCoaching = service.number === "03";
             return (
               <li
                 key={service.number}
@@ -96,7 +96,7 @@ export function Services({ theme = "dark" }: ServicesProps) {
                     {service.number}
                   </span>
                   <span className="flex flex-1 items-center justify-between gap-4 sm:justify-start">
-                    <span className="font-display text-2xl uppercase transition-colors sm:w-72 sm:shrink-0 sm:text-3xl sm:group-hover:text-accent">
+                    <span className="whitespace-pre-line font-display text-2xl uppercase transition-colors sm:w-72 sm:shrink-0 sm:text-3xl sm:group-hover:text-accent">
                       {service.name}
                     </span>
                     <svg

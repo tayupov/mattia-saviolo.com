@@ -91,6 +91,30 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
+
+        {/* Team */}
+        <section className="px-6 py-20 sm:px-12 lg:py-28">
+          <h2 className="text-center font-display text-4xl uppercase leading-[0.95] sm:text-5xl">
+            Team
+          </h2>
+
+          <div className="mx-auto mt-12 flex max-w-xs flex-col items-center">
+            <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-white/5 grayscale">
+              <Image
+                src="/roman-headshot.jpg"
+                alt="Roman"
+                fill
+                sizes="(min-width: 640px) 20rem, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <p className="mt-6 text-center text-lg">
+              <span className="font-bold">Roman</span>
+              <br />
+              <span className="text-white/70">Management</span>
+            </p>
+          </div>
+        </section>
       </main>
 
       <SiteFooter />

@@ -192,6 +192,11 @@ function PortfolioScroller({ releases }: { releases: Release[] }) {
     }, RESUME_DELAY);
   };
 
+  // Mouse dragging is tracked via window-level listeners rather than
+  // setPointerCapture — capture retargets every subsequent pointer/mouse
+  // event (including the eventual click) to this container, which stops the
+  // anchor underneath from ever seeing a click and breaks navigation, drag
+  // or not.
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     pause();
     if (e.pointerType !== "mouse") return;
@@ -201,23 +206,25 @@ function PortfolioScroller({ releases }: { releases: Release[] }) {
     movedRef.current = false;
     startXRef.current = e.clientX;
     startScrollLeftRef.current = el.scrollLeft;
-    el.setPointerCapture(e.pointerId);
+
+    const handleWindowPointerMove = (ev: PointerEvent) => {
+      const deltaX = ev.clientX - startXRef.current;
+      if (Math.abs(deltaX) > DRAG_CLICK_THRESHOLD) movedRef.current = true;
+      el.scrollLeft = startScrollLeftRef.current - deltaX;
+    };
+    const handleWindowPointerUp = () => {
+      draggingRef.current = false;
+      scheduleResume();
+      window.removeEventListener("pointermove", handleWindowPointerMove);
+      window.removeEventListener("pointerup", handleWindowPointerUp);
+    };
+    window.addEventListener("pointermove", handleWindowPointerMove);
+    window.addEventListener("pointerup", handleWindowPointerUp);
   };
 
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!draggingRef.current) return;
-    const el = scrollerRef.current;
-    if (!el) return;
-    const deltaX = e.clientX - startXRef.current;
-    if (Math.abs(deltaX) > DRAG_CLICK_THRESHOLD) movedRef.current = true;
-    el.scrollLeft = startScrollLeftRef.current - deltaX;
-  };
-
-  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (draggingRef.current) {
-      scrollerRef.current?.releasePointerCapture(e.pointerId);
-    }
-    draggingRef.current = false;
+  // Touch has no drag tracking of its own to clean up — this just resumes
+  // autoplay after native touch scrolling releases.
+  const handlePointerUp = () => {
     scheduleResume();
   };
 
@@ -237,7 +244,6 @@ function PortfolioScroller({ releases }: { releases: Release[] }) {
       <div
         ref={scrollerRef}
         onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
         onClickCapture={handleClickCapture}

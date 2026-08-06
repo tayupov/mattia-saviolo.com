@@ -3,8 +3,8 @@ import Link from "next/link";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/30 px-6 py-5 backdrop-blur-sm sm:px-12">
-      <Link href="/" className="shrink-0">
+    <header className="sticky top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/30 px-6 py-2 backdrop-blur-sm sm:px-12">
+      <Link href="/" className="shrink-0 -mt-4">
         <Image
           src="/brand/logo.png"
           alt="Mattia Saviolo"
@@ -18,7 +18,7 @@ export function SiteHeader() {
       <nav className="flex items-center gap-6 sm:gap-8">
         <Link
           href="/about"
-          className="hidden font-display text-sm uppercase tracking-wide text-white/70 transition-colors hover:text-accent sm:block"
+          className="font-display text-sm uppercase tracking-wide text-white/70 transition-colors hover:text-accent"
         >
           About
         </Link>

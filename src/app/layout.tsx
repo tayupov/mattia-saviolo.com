@@ -15,14 +15,14 @@ const epilogue = Epilogue({
   subsets: ["latin"],
 });
 
-const TITLE = "Mattia Saviolo — Techno Producer, Mixing & Mastering Engineer";
+const TITLE = "Mattia Saviolo | Techno Producer, Mixing & Mastering Engineer";
 const OG_IMAGE = "/brand/video-thumbnail.png";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: TITLE,
-    template: "%s — Mattia Saviolo",
+    template: "%s | Mattia Saviolo",
   },
   description: SITE_DESCRIPTION,
   alternates: {
