@@ -192,6 +192,28 @@ function PortfolioScroller({ releases }: { releases: Release[] }) {
     }, RESUME_DELAY);
   };
 
+  // Fallback pause/resume via native touch events, in parallel with the
+  // pointer handlers below. Pointer Events support on iOS is inconsistent
+  // outside real Safari (Firefox/Chrome/etc. on iOS are all WKWebView under
+  // the hood, and pointerdown/up don't reliably fire there) — without this,
+  // the rAF loop above keeps overwriting `scrollLeft` mid-swipe and a manual
+  // scroll on those browsers looks like it "doesn't work". Calls are
+  // idempotent with the pointer handlers, so listening to both is safe.
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const onTouchStart = () => pause();
+    const onTouchEnd = () => scheduleResume();
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchend", onTouchEnd, { passive: true });
+    el.addEventListener("touchcancel", onTouchEnd, { passive: true });
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchend", onTouchEnd);
+      el.removeEventListener("touchcancel", onTouchEnd);
+    };
+  }, []);
+
   // Mouse dragging is tracked via window-level listeners rather than
   // setPointerCapture — capture retargets every subsequent pointer/mouse
   // event (including the eventual click) to this container, which stops the
@@ -236,23 +258,30 @@ function PortfolioScroller({ releases }: { releases: Release[] }) {
   };
 
   const track = [...releases, ...releases];
-  const fade =
-    "linear-gradient(to right, transparent, black 5%, black 95%, transparent)";
 
   return (
-    <div style={{ WebkitMaskImage: fade, maskImage: fade }}>
+    // Edge fades are two overlay divs, not a `mask-image` on this wrapper.
+    // WebKit has a long-standing bug where `-webkit-mask-image` on an
+    // ancestor of a `overflow-x: auto` element silently kills native touch
+    // scrolling on real iOS devices — it's an engine bug, so it hits every
+    // iOS browser (Safari, Firefox, Chrome all run on WebKit there), even
+    // though desktop and simulators scroll fine. Overlay divs get the same
+    // visual fade without touching the scroll container's compositing.
+    <div className="relative">
       <div
         ref={scrollerRef}
         onPointerDown={handlePointerDown}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
         onClickCapture={handleClickCapture}
-        className="flex cursor-grab gap-6 overflow-x-auto px-6 [-ms-overflow-style:none] [scrollbar-width:none] active:cursor-grabbing sm:px-12 [&::-webkit-scrollbar]:hidden"
+        className="flex cursor-grab touch-pan-x gap-6 overflow-x-auto overscroll-x-contain px-6 [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] [scrollbar-width:none] active:cursor-grabbing sm:px-12 [&::-webkit-scrollbar]:hidden"
       >
         {track.map((release, index) => (
           <ReleaseCover key={`${release.title}-${index}`} release={release} />
         ))}
       </div>
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-background to-transparent sm:w-12" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-background to-transparent sm:w-12" />
     </div>
   );
 }

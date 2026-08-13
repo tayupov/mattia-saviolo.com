@@ -16,8 +16,8 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent" />
 
-      {/* Mobile: headline + subtitle grouped at top */}
-      <div className="animate-hero-in relative z-10 flex flex-1 flex-col px-6 pt-6 pb-14 sm:px-12 sm:pt-8 lg:hidden">
+      {/* Mobile: headline + subtitle grouped at bottom */}
+      <div className="animate-hero-in relative z-10 mt-auto flex flex-col px-6 pb-14 sm:px-12 lg:hidden">
         <h1 className="font-display text-[13vw] uppercase leading-[0.85] sm:text-[8vw]">
           Production.
           <br />
