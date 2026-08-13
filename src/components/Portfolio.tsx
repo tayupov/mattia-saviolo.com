@@ -112,13 +112,13 @@ function ReleaseCover({ release }: { release: Release }) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`Listen to ${release.title} by ${release.artist} on Spotify`}
-      className="group/cover relative aspect-square w-56 shrink-0 overflow-hidden border border-white/10 bg-white/[0.04] outline-none sm:w-64"
+      className="group/cover relative aspect-square w-44 shrink-0 overflow-hidden border border-white/10 bg-white/[0.04] outline-none sm:w-52"
     >
       <Image
         src={release.coverUrl}
         alt={`${release.title} cover art — ${release.artist}`}
         fill
-        sizes="(min-width: 640px) 256px, 224px"
+        sizes="(min-width: 640px) 208px, 176px"
         className="object-cover transition-transform duration-300 group-hover/cover:scale-[1.02] group-focus-visible/cover:scale-[1.02]"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
@@ -259,7 +259,7 @@ function PortfolioScroller({ releases }: { releases: Release[] }) {
 
 export function Portfolio() {
   return (
-    <section className="overflow-hidden pb-16 sm:pb-20">
+    <section className="overflow-hidden pt-16 pb-16 sm:pb-20">
       <PortfolioScroller releases={RELEASES} />
     </section>
   );
