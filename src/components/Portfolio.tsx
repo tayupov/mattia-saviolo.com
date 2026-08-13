@@ -147,6 +147,7 @@ function ReleaseCover({ release }: { release: Release }) {
 //     suppresses the click, so a drag doesn't also open the Spotify link).
 const SCROLL_SPEED = 40; // px/sec
 const RESUME_DELAY = 2000; // ms after release before autoplay resumes
+const MAX_PAUSE_DURATION = 6000; // ms safety net — see pause() below
 const DRAG_CLICK_THRESHOLD = 6; // px of movement before a drag suppresses the click
 
 function PortfolioScroller({ releases }: { releases: Release[] }) {
@@ -184,6 +185,15 @@ function PortfolioScroller({ releases }: { releases: Release[] }) {
   const pause = () => {
     pausedRef.current = true;
     if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+    // Safety net: normally a matching up/cancel event calls scheduleResume()
+    // and overrides this. But on real touch devices a gesture that starts on
+    // this element and gets handed off to page-level scrolling (e.g. a
+    // vertical swipe that lands on this horizontal strip) doesn't reliably
+    // fire touchend/touchcancel back here, which used to leave autoplay
+    // paused forever. This guarantees it always resumes eventually.
+    resumeTimeoutRef.current = setTimeout(() => {
+      pausedRef.current = false;
+    }, MAX_PAUSE_DURATION);
   };
   const scheduleResume = () => {
     if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
@@ -274,7 +284,7 @@ function PortfolioScroller({ releases }: { releases: Release[] }) {
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
         onClickCapture={handleClickCapture}
-        className="flex cursor-grab touch-pan-x gap-6 overflow-x-auto overscroll-x-contain px-6 [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] [scrollbar-width:none] active:cursor-grabbing sm:px-12 [&::-webkit-scrollbar]:hidden"
+        className="flex cursor-grab gap-6 overflow-x-auto overscroll-x-contain px-6 [-ms-overflow-style:none] [scrollbar-width:none] active:cursor-grabbing sm:px-12 [&::-webkit-scrollbar]:hidden"
       >
         {track.map((release, index) => (
           <ReleaseCover key={`${release.title}-${index}`} release={release} />
