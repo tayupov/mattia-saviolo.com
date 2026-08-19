@@ -31,7 +31,7 @@ const PLUGINS: PluginSummary[] = [
     slug: "sentinella",
     name: "SENTINELLA",
     tagline:
-      "Hear how your mix stacks up against pro techno records — live, right in your DAW.",
+      "The reference tool I use in my own studio — now live in your DAW.",
     formats: ["VST3", "AU", "Standalone"],
     os: ["Windows", "macOS (Apple Silicon)"],
     status: "available",

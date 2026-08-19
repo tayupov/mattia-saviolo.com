@@ -22,7 +22,7 @@ const PLUGIN = {
   // identical to the tagline used on the homepage section and the /plugins
   // list card, so the messaging doesn't drift between pages.
   valueProp:
-    "Hear how your mix stacks up against pro techno records — live, right in your DAW.",
+    "The reference tool I use in my own studio — now live in your DAW.",
   price: "€49",
   formats: ["VST3", "AU", "Standalone"],
   os: ["Windows", "macOS (Apple Silicon)"],
@@ -139,14 +139,37 @@ export default function SentinellaPage() {
               {PLUGIN.name}
             </h1>
             {/* Hardcoded with a manual <br /> (instead of PLUGIN.valueProp)
-                to force the line break after "against" on desktop only —
+                to force the line break after the em dash on desktop only —
                 keep this in sync with PLUGIN.valueProp if that tagline ever
                 changes. */}
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">
-              Hear how your mix stacks up against{" "}
+              The reference tool I use in my own studio —{" "}
               <br className="hidden lg:block" />
-              pro techno records — live, right in your DAW.
+              now live in your DAW.
             </p>
+            {/* Byline — small clipped headshot (same clip-path as the
+                "Built for your target" quote below) so the hero carries a
+                face, not just a claim. Kept as a compact row rather than
+                the full quote, which stays further down the page. */}
+            <div className="mt-5 flex items-center gap-3">
+              <div
+                className="relative aspect-square w-9 shrink-0 overflow-hidden bg-white/5 grayscale"
+                style={{
+                  clipPath: "polygon(0 0, 100% 0, 100% 100%, 14% 100%, 0 82%)",
+                }}
+              >
+                <Image
+                  src="/mattia-headshot.jpg"
+                  alt="Mattia Saviolo"
+                  fill
+                  sizes="36px"
+                  className="object-cover"
+                />
+              </div>
+              <p className="text-sm text-white/50">
+                Built by <span className="text-white/80">Mattia Saviolo</span>
+              </p>
+            </div>
 
             <div className="mt-8 flex flex-wrap gap-2">
               {PLUGIN.formats.map((format) => (
@@ -229,13 +252,9 @@ export default function SentinellaPage() {
             InteractiveScreenshot above (which is mouse/touch only) with
             something skimmable and indexable. */}
         <section className="border-t border-white/10 px-6 py-20 sm:px-12 lg:py-28">
-          <h2 className="font-display text-4xl uppercase leading-[0.95] sm:text-5xl">
+          <h2 className="text-center font-display text-4xl uppercase leading-[0.95] sm:text-5xl">
             What&rsquo;s inside.
           </h2>
-          <p className="mt-4 max-w-xl text-white/60">
-            Drag the handle — same track, same target, before and after one
-            click of Shape.
-          </p>
           <div className="mt-10">
             <BeforeAfterSlider />
           </div>
@@ -266,11 +285,46 @@ export default function SentinellaPage() {
           <h2 className="font-display text-4xl uppercase leading-[0.95] sm:text-5xl">
             Built for your target.
           </h2>
-          <p className="mt-4 max-w-xl text-white/60">
-            Every preset target is distilled from hundreds of
-            released records, so you&rsquo;re mixing against
-            the sound of the genre.
-          </p>
+
+          {/* Philosophy — signed quote + the same headshot used on /about,
+              added per artist feedback: the targets should read as the
+              product of Mattia's own research and studio work, not curves
+              lifted from other people's records. Kept compact (small
+              avatar-style photo, not a full section-width visual) so it
+              reads as an aside grounding the section, not a competing
+              headline. */}
+          <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-6">
+            <div
+              className="relative aspect-square w-16 shrink-0 overflow-hidden bg-white/5 grayscale sm:w-20"
+              style={{
+                clipPath: "polygon(0 0, 100% 0, 100% 100%, 14% 100%, 0 82%)",
+              }}
+            >
+              <Image
+                src="/mattia-headshot.jpg"
+                alt="Mattia Saviolo"
+                fill
+                sizes="80px"
+                className="object-cover"
+              />
+            </div>
+            <blockquote className="border-l-2 border-accent pl-5">
+              <p className="max-w-2xl text-base leading-relaxed text-white/70">
+                &ldquo;Sentinella is the result of mixing,
+                mastering and producing techno records for over fifteen years, releasing on labels like
+                Drumcode, NINETOZERO, Tronic, Kraftek and Factory 93.
+              </p>
+              <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/70">
+                The targets you will find in Sentinella are built around what
+                my workflow in the studio looks like. I wanted to hand
+                that over so you can use it too.&rdquo;
+              </p>
+              <footer className="mt-3 font-display text-xs uppercase tracking-widest text-white/40">
+                — Mattia Saviolo
+              </footer>
+            </blockquote>
+          </div>
+
           <div className="mt-10 grid gap-6 sm:grid-cols-3">
             {TARGETS.map((target) => (
               <div

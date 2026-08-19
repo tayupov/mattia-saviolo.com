@@ -27,7 +27,8 @@ function PluginCard({ className = "" }: { className?: string }) {
       </span>
       <span className="font-display text-2xl uppercase leading-none">Sentinella</span>
       <p className="text-sm leading-snug text-white/60">
-        Hear how your mix stacks up against pro techno records — live, in your DAW.
+        Built from Mattia&rsquo;s own studio work — hear how your mix
+        stacks up, live in your DAW.
       </p>
       <span className="mt-1 inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-white/70 transition-colors group-hover:text-white">
         Explore
