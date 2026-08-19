@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import { startPluginCheckout } from "@/app/actions/checkout";
 import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
 import { InteractiveScreenshot } from "@/components/InteractiveScreenshot";
 import { TargetVisual } from "@/components/TargetVisual";
@@ -8,11 +8,17 @@ import { ReviewsCarousel } from "@/components/ReviewsCarousel";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { osIcon } from "@/components/OsIcons";
+import { REVIEWS } from "@/data/reviews";
+import { SITE_URL } from "@/lib/site";
+
+// Shared with the Product JSON-LD below, so the on-page copy and the
+// structured data Google reads never drift apart.
+const PLUGIN_DESCRIPTION =
+  "SENTINELLA — a real-time reference plugin for techno producers, built by Mattia Saviolo. Targets peak time, raw, and melodic techno, and compares your live mix against them right inside your DAW.";
 
 export const metadata: Metadata = {
   title: "SENTINELLA",
-  description:
-    "SENTINELLA — a real-time reference plugin for techno producers, built by Mattia Saviolo. Targets peak time, raw, and melodic techno, and compares your live mix against them right inside your DAW.",
+  description: PLUGIN_DESCRIPTION,
   alternates: { canonical: "/plugins/sentinella" },
 };
 
@@ -23,9 +29,65 @@ const PLUGIN = {
   // list card, so the messaging doesn't drift between pages.
   valueProp:
     "The reference tool I use in my own studio — now live in your DAW.",
+  // Keep in sync by hand with the Stripe Dashboard price referenced by
+  // src/data/plugins.ts and with jsonLd.offers.price below — no dynamic
+  // Stripe price fetch, staying consistent with this repo's static-content
+  // convention.
   price: "€49",
+  priceAmount: "49.00",
+  priceCurrency: "EUR",
   formats: ["VST3", "AU", "Standalone"],
   os: ["Windows", "macOS (Apple Silicon)"],
+};
+
+// Product structured data (schema.org/Product) — lets Google show price,
+// availability, and review stars for Sentinella directly in search results.
+// review/aggregateRating are built from REVIEWS (src/data/reviews.ts, the
+// same real, consented quotes ReviewsCarousel renders) so the two never
+// drift apart.
+const averageRating = (
+  REVIEWS.reduce((sum, review) => sum + review.rating, 0) / REVIEWS.length
+).toFixed(1);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: PLUGIN.name,
+  description: PLUGIN_DESCRIPTION,
+  image: `${SITE_URL}/sentinella/dark-shaped.png`,
+  url: `${SITE_URL}/plugins/sentinella`,
+  brand: {
+    "@type": "Brand",
+    name: "Mattia Saviolo",
+  },
+  category: "Audio Plugin",
+  releaseNotes: `Formats: ${PLUGIN.formats.join(", ")}. OS: ${PLUGIN.os.join(", ")}.`,
+  offers: {
+    "@type": "Offer",
+    url: `${SITE_URL}/plugins/sentinella`,
+    priceCurrency: PLUGIN.priceCurrency,
+    price: PLUGIN.priceAmount,
+    availability: "https://schema.org/InStock",
+    itemCondition: "https://schema.org/NewCondition",
+  },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: averageRating,
+    reviewCount: REVIEWS.length,
+  },
+  review: REVIEWS.map((review) => ({
+    "@type": "Review",
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: review.rating,
+      bestRating: 5,
+    },
+    author: {
+      "@type": "Person",
+      name: review.name,
+    },
+    reviewBody: review.quote,
+  })),
 };
 
 // Targets — each visualized with a B&W photo (via TargetVisual) rather than
@@ -120,11 +182,30 @@ const FAQ = [
     q: "Do updates cost extra?",
     a: "No — updates are free for the life of the license.",
   },
+  {
+    q: "Can I use my own reference tracks?",
+    a: "Yes — alongside the built-in Peak Time, Raw, and Melodic curves, you can upload your own tracks and Sentinella will build a Custom tonal balance target from them.",
+  },
 ];
 
-export default function SentinellaPage() {
+// Bound once at module scope rather than inline in each <form action={...}>
+// below — same Server Action reference either way, but this reads as one
+// named "this page's buy button" rather than two anonymous closures.
+const buySentinella = startPluginCheckout.bind(null, "sentinella");
+
+export default async function SentinellaPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ checkout_error?: string }>;
+}) {
+  const checkoutError = (await searchParams).checkout_error === "1";
+
   return (
     <div className="flex flex-1 flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Header + hero share a dedicated min-h-dvh flex column so the hero
           section (flex-1) fills exactly the rest of the first viewport
           below the header, regardless of the rest of the page's content —
@@ -195,13 +276,21 @@ export default function SentinellaPage() {
             </div>
 
             <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Link
-                href="/#contact"
-                className="inline-block bg-accent px-8 py-4 font-display text-base uppercase tracking-wide text-black transition-colors hover:bg-white"
-              >
-                Buy — {PLUGIN.price}
-              </Link>
+              <form action={buySentinella}>
+                <button
+                  type="submit"
+                  className="inline-block cursor-pointer bg-accent px-8 py-4 font-display text-base uppercase tracking-wide text-black transition-colors hover:bg-white"
+                >
+                  Buy — {PLUGIN.price}
+                </button>
+              </form>
             </div>
+            {checkoutError && (
+              <p className="mt-4 text-sm text-red-400">
+                Something went wrong starting checkout — please try again or
+                use the contact form.
+              </p>
+            )}
           </div>
 
           {/* Hero product shot — the real GUI, "shaped" state. Depth comes
@@ -225,6 +314,7 @@ export default function SentinellaPage() {
                 src="/sentinella/dark-shaped.png"
                 alt="Sentinella — main GUI"
                 fill
+                sizes="(min-width: 1024px) 55vw, 100vw"
                 className="object-cover"
                 priority
               />
@@ -240,8 +330,8 @@ export default function SentinellaPage() {
             PluginVideoPlayer); dropped for now in favor of the looping video
             used as this section's background — see InteractiveScreenshot. */}
         <section className="border-t border-white/10 px-6 py-20 sm:px-12 lg:py-28">
-          <h2 className="text-center font-display text-4xl uppercase sm:text-5xl">
-            See what you&rsquo;re hearing.
+          <h2 className="text-center font-display text-4xl uppercase leading-[0.95] sm:text-5xl">
+            What&rsquo;s inside.
           </h2>
           <div className="mt-4">
             <InteractiveScreenshot />
@@ -250,32 +340,45 @@ export default function SentinellaPage() {
 
         {/* Feature list — written breakdown, complements the hover-driven
             InteractiveScreenshot above (which is mouse/touch only) with
-            something skimmable and indexable. */}
+            something skimmable and indexable. Native <details>/<summary>
+            (same mechanism as the FAQ accordion below), defaulted `open` so
+            it just renders as the old static list out of the box; on
+            desktop the summary is non-interactive (sm:pointer-events-none)
+            so it can never be collapsed. Only below sm does the summary stay
+            clickable, giving mobile a real (open-by-default) accordion. */}
         <section className="border-t border-white/10 px-6 py-20 sm:px-12 lg:py-28">
-          <h2 className="text-center font-display text-4xl uppercase leading-[0.95] sm:text-5xl">
-            What&rsquo;s inside.
+          <h2 className="text-center font-display text-4xl uppercase sm:text-5xl">
+            See what you&rsquo;re hearing.
           </h2>
           <div className="mt-10">
             <BeforeAfterSlider />
           </div>
-          <ul className="mx-auto mt-16 grid max-w-5xl divide-y divide-white/10 px-4 sm:grid-cols-2 sm:gap-x-12 sm:divide-y-0 sm:px-0">
+          <div className="mx-auto mt-16 grid max-w-5xl divide-y divide-white/10 px-4 sm:grid-cols-2 sm:gap-x-12 sm:divide-y-0 sm:px-0">
             {FEATURES.map((feature) => (
-              <li
+              <details
                 key={feature.number}
-                className="flex gap-6 py-6 sm:border-b sm:border-t sm:border-white/10"
+                open
+                className="group py-6 sm:border-b sm:border-t sm:border-white/10"
               >
-                <span className="font-display text-lg text-white/30">
-                  {feature.number}
-                </span>
-                <div>
-                  <h3 className="font-display text-xl uppercase leading-tight">
-                    {feature.name}
-                  </h3>
-                  <p className="mt-2 text-white/60">{feature.description}</p>
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden sm:pointer-events-none sm:cursor-default">
+                  <div className="flex items-center gap-6">
+                    <span className="font-display text-lg text-white/30">
+                      {feature.number}
+                    </span>
+                    <h3 className="font-display text-xl uppercase leading-tight">
+                      {feature.name}
+                    </h3>
+                  </div>
+                  <span className="shrink-0 font-display text-2xl leading-none text-accent transition-transform duration-200 group-open:rotate-45 sm:hidden">
+                    +
+                  </span>
+                </summary>
+                <div className="pl-12 pt-2 sm:pl-0">
+                  <p className="text-white/60">{feature.description}</p>
                 </div>
-              </li>
+              </details>
             ))}
-          </ul>
+          </div>
         </section>
 
         {/* Targets — visualized via TargetVisual (B&W photo, falling back to
@@ -436,12 +539,21 @@ export default function SentinellaPage() {
             <br />
             Start hearing it.
           </h2>
-          <Link
-            href="/#contact"
-            className="mt-8 inline-block bg-accent px-8 py-4 font-display text-base uppercase tracking-wide text-black transition-colors hover:bg-white"
-          >
-            Buy — {PLUGIN.price}
-          </Link>
+          <form action={buySentinella} className="mt-8">
+            <button
+              type="submit"
+              className="inline-block cursor-pointer bg-accent px-8 py-4 font-display text-base uppercase tracking-wide text-black transition-colors hover:bg-white"
+            >
+              Buy — {PLUGIN.price}
+            </button>
+          </form>
+          <Image
+            src="/brand/logo.png"
+            alt="Mattia Saviolo"
+            width={220}
+            height={30}
+            className="mx-auto mt-14 h-auto w-[140px] opacity-60"
+          />
         </section>
       </main>
 

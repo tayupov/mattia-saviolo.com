@@ -3,7 +3,7 @@ import Link from "next/link";
 function PluginNudge({ className = "" }: { className?: string }) {
   return (
     <Link
-      href="#plugins"
+      href="/plugins/sentinella"
       className={`group inline-flex w-fit items-center gap-2 border border-white/20 bg-white/5 py-1.5 pl-3 pr-4 text-xs uppercase tracking-widest text-white/70 backdrop-blur-sm transition-colors hover:border-accent/50 hover:text-white ${className}`}
     >
       <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
@@ -18,7 +18,7 @@ function PluginNudge({ className = "" }: { className?: string }) {
 function PluginCard({ className = "" }: { className?: string }) {
   return (
     <Link
-      href="#plugins"
+      href="/plugins/sentinella"
       className={`group flex w-72 flex-col gap-3 border border-white/15 bg-black/60 p-5 backdrop-blur-md transition-colors hover:border-accent/50 ${className}`}
     >
       <span className="inline-flex w-fit items-center gap-1.5 text-[11px] uppercase tracking-widest text-accent">
@@ -27,8 +27,8 @@ function PluginCard({ className = "" }: { className?: string }) {
       </span>
       <span className="font-display text-2xl uppercase leading-none">Sentinella</span>
       <p className="text-sm leading-snug text-white/60">
-        Built from Mattia&rsquo;s own studio work — hear how your mix
-        stacks up, live in your DAW.
+        Built from my own studio work — hear how your mix
+        compares to my references.
       </p>
       <span className="mt-1 inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-white/70 transition-colors group-hover:text-white">
         Explore

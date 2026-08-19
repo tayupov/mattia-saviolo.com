@@ -152,7 +152,7 @@ export default function PluginsPage() {
           <h1 className="font-display text-4xl uppercase leading-[0.9] sm:text-5xl lg:text-6xl">
             Studio tools,
             <br />
-            built from the mixing chair.
+            built from my mixing chair.
           </h1>
         </section>
 

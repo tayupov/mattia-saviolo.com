@@ -18,7 +18,7 @@ export function PluginsSection() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 className="font-display text-4xl uppercase leading-[0.95] sm:text-5xl">
-            Studio tools built from the mixing chair.
+            Studio tools built from my mixing chair.
           </h2>
         </div>
       </div>

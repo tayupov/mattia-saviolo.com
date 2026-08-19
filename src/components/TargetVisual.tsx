@@ -70,6 +70,7 @@ export function TargetVisual({
           src={image}
           alt={alt}
           fill
+          sizes="(min-width: 640px) 33vw, 100vw"
           className="transform-gpu object-cover grayscale contrast-125 brightness-90 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform group-hover:scale-105 group-hover:grayscale-[0.55] group-hover:brightness-100"
         />
       ) : (
