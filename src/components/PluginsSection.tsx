@@ -32,7 +32,7 @@ export function PluginsSection() {
       >
         <div className="grid gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-center lg:gap-12">
           <div>
-            <h3 className="font-display text-6xl uppercase leading-none sm:text-7xl">
+            <h3 className="font-display text-3xl uppercase leading-none sm:text-6xl">
               {PLUGIN.name}
             </h3>
             <p className="mt-4 max-w-sm text-lg text-white/60">{PLUGIN.tagline}</p>

@@ -138,8 +138,14 @@ export default function SentinellaPage() {
             <h1 className="font-display text-5xl uppercase leading-[0.9] sm:text-6xl lg:text-7xl">
               {PLUGIN.name}
             </h1>
+            {/* Hardcoded with a manual <br /> (instead of PLUGIN.valueProp)
+                to force the line break after "against" on desktop only —
+                keep this in sync with PLUGIN.valueProp if that tagline ever
+                changes. */}
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">
-              {PLUGIN.valueProp}
+              Hear how your mix stacks up against{" "}
+              <br className="hidden lg:block" />
+              pro techno records — live, right in your DAW.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-2">
@@ -186,7 +192,7 @@ export default function SentinellaPage() {
               NOTE: rounded corners here are a deliberate one-off try, at
               odds with the sharp/angular look CLAUDE.md specifies elsewhere
               — revert to square if it doesn't earn its place. */}
-          <div className="relative order-first aspect-video w-full lg:order-last">
+          <div className="relative order-first aspect-video w-full lg:order-last lg:-translate-x-24 lg:scale-115">
             <div
               aria-hidden
               className="absolute -inset-4 -z-10 rounded-[2rem] bg-[#4d8dff]/[0.12] blur-2xl"
@@ -205,6 +211,54 @@ export default function SentinellaPage() {
       </div>
 
       <main>
+        {/* Interactive screenshot — hover (or tap) a feature to see it
+            highlighted directly on the real GUI. The "See it in action" demo
+            video previously lived here as its own section (via
+            PluginVideoPlayer); dropped for now in favor of the looping video
+            used as this section's background — see InteractiveScreenshot. */}
+        <section className="border-t border-white/10 px-6 py-20 sm:px-12 lg:py-28">
+          <h2 className="text-center font-display text-4xl uppercase sm:text-5xl">
+            See what you&rsquo;re hearing.
+          </h2>
+          <div className="mt-4">
+            <InteractiveScreenshot />
+          </div>
+        </section>
+
+        {/* Feature list — written breakdown, complements the hover-driven
+            InteractiveScreenshot above (which is mouse/touch only) with
+            something skimmable and indexable. */}
+        <section className="border-t border-white/10 px-6 py-20 sm:px-12 lg:py-28">
+          <h2 className="font-display text-4xl uppercase leading-[0.95] sm:text-5xl">
+            What&rsquo;s inside.
+          </h2>
+          <p className="mt-4 max-w-xl text-white/60">
+            Drag the handle — same track, same target, before and after one
+            click of Shape.
+          </p>
+          <div className="mt-10">
+            <BeforeAfterSlider />
+          </div>
+          <ul className="mx-auto mt-16 grid max-w-5xl divide-y divide-white/10 px-4 sm:grid-cols-2 sm:gap-x-12 sm:divide-y-0 sm:px-0">
+            {FEATURES.map((feature) => (
+              <li
+                key={feature.number}
+                className="flex gap-6 py-6 sm:border-b sm:border-t sm:border-white/10"
+              >
+                <span className="font-display text-lg text-white/30">
+                  {feature.number}
+                </span>
+                <div>
+                  <h3 className="font-display text-xl uppercase leading-tight">
+                    {feature.name}
+                  </h3>
+                  <p className="mt-2 text-white/60">{feature.description}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         {/* Targets — visualized via TargetVisual (B&W photo, falling back to
             a brutalist bar-meter graphic), see comment on the TARGETS
             constant above. */}
@@ -237,54 +291,6 @@ export default function SentinellaPage() {
               </div>
             ))}
           </div>
-        </section>
-
-        {/* Interactive screenshot — hover (or tap) a feature to see it
-            highlighted directly on the real GUI. The "See it in action" demo
-            video previously lived here as its own section (via
-            PluginVideoPlayer); dropped for now in favor of the looping video
-            used as this section's background — see InteractiveScreenshot. */}
-        <section className="border-t border-white/10 px-6 py-20 sm:px-12 lg:py-28">
-          <h2 className="text-center font-display text-4xl uppercase sm:text-5xl">
-            See what you&rsquo;re hearing.
-          </h2>
-          <div className="mt-10">
-            <InteractiveScreenshot />
-          </div>
-        </section>
-
-        {/* Feature list — written breakdown, complements the hover-driven
-            InteractiveScreenshot above (which is mouse/touch only) with
-            something skimmable and indexable. */}
-        <section className="border-t border-white/10 px-6 py-20 sm:px-12 lg:py-28">
-          <h2 className="font-display text-4xl uppercase leading-[0.95] sm:text-5xl">
-            What&rsquo;s inside.
-          </h2>
-          <p className="mt-4 max-w-xl text-white/60">
-            Drag the handle — same track, same target, before and after one
-            click of Shape.
-          </p>
-          <div className="mt-10">
-            <BeforeAfterSlider />
-          </div>
-          <ul className="mt-16 grid divide-y divide-white/10 sm:grid-cols-2 sm:gap-x-12 sm:divide-y-0">
-            {FEATURES.map((feature) => (
-              <li
-                key={feature.number}
-                className="flex gap-6 py-6 sm:border-b sm:border-t sm:border-white/10"
-              >
-                <span className="font-display text-lg text-white/30">
-                  {feature.number}
-                </span>
-                <div>
-                  <h3 className="font-display text-xl uppercase leading-tight">
-                    {feature.name}
-                  </h3>
-                  <p className="mt-2 text-white/60">{feature.description}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
         </section>
 
         {/* Reviews — extracted to a client component (ReviewsCarousel) since
