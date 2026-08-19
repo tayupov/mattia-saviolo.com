@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/lib/site";
+import type { DownloadFile } from "@/data/downloads";
 
 // Table-based HTML — the layout email clients (notably Outlook desktop,
 // which renders via Word) actually support consistently. Google Fonts are
@@ -7,14 +8,19 @@ import { SITE_URL } from "@/lib/site";
 // clients that strip <style>/<link> (Gmail's app, older Outlook) still
 // render something close to on-brand instead of Times New Roman.
 //
-// Deliberately doesn't promise a license key or download link inline —
-// fulfillment for those is still a deferred follow-up (see the webhook
-// route's header comment). This is a receipt, not a delivery.
+// Download links are duplicated here (same files as the Stripe success
+// page, see src/app/plugins/sentinella/success/page.tsx) so a customer who
+// closes that tab still has a way to get the installer — this is the
+// durable copy of the delivery, the success page is just the fast path.
+// No license-key mechanism exists yet and none is planned for launch; add
+// copy for it if/when that's built.
 
 type PurchaseConfirmationEmailParams = {
   productName: string;
   /** Pre-formatted, e.g. "€49.00" — build with Intl.NumberFormat at the call site. */
   amountFormatted: string;
+  /** Omitted when the purchased plugin couldn't be determined from the session. */
+  downloads?: DownloadFile[];
 };
 
 const ACCENT = "#F38444";
@@ -31,15 +37,28 @@ const BODY_FONT_STACK =
 export function purchaseConfirmationEmail({
   productName,
   amountFormatted,
+  downloads,
 }: PurchaseConfirmationEmailParams) {
   const subject = `Thanks for your ${productName} purchase`;
+
+  const absoluteDownloads = (downloads ?? []).map((file) => ({
+    ...file,
+    url: `${SITE_URL}${file.href}`,
+  }));
 
   const text = [
     "Thanks for your purchase.",
     "",
     `${productName} — ${amountFormatted}`,
     "",
-    "We'll follow up shortly with your license key and download link.",
+    ...(absoluteDownloads.length > 0
+      ? [
+          "Downloads:",
+          ...absoluteDownloads.map(
+            (file) => `${file.os} — ${file.format}: ${file.url}`,
+          ),
+        ]
+      : ["This is your receipt — your download is ready on the confirmation page."]),
     "",
     "— Mattia Saviolo",
     SITE_URL,
@@ -108,12 +127,64 @@ export function purchaseConfirmationEmail({
                 <p
                   style="margin:0; font-family:${BODY_FONT_STACK}; font-size:16px; line-height:1.6; color:${BODY_TEXT};"
                 >
-                  We&rsquo;ll follow up shortly with your license key and
-                  download link. No subscription, no iLok &mdash; a single
-                  offline key, yours to keep.
+                  ${
+                    absoluteDownloads.length > 0
+                      ? "Here&rsquo;s your receipt, plus your download links below."
+                      : "This is your receipt."
+                  }
                 </p>
               </td>
             </tr>
+
+            ${
+              absoluteDownloads.length > 0
+                ? `<!-- Downloads -->
+            <tr>
+              <td style="padding-bottom:32px;">
+                <table
+                  role="presentation"
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  style="border:1px solid ${PANEL_BORDER};"
+                >
+                  ${absoluteDownloads
+                    .map(
+                      (file, index) => `<tr>
+                    <td
+                      style="padding:16px 24px; ${index > 0 ? `border-top:1px solid ${PANEL_BORDER};` : ""}"
+                    >
+                      <table
+                        role="presentation"
+                        width="100%"
+                        cellpadding="0"
+                        cellspacing="0"
+                      >
+                        <tr>
+                          <td
+                            style="font-family:${BODY_FONT_STACK}; font-size:15px; font-weight:600; color:#ffffff;"
+                          >
+                            ${file.os} &mdash; ${file.format}
+                          </td>
+                          <td align="right">
+                            <a
+                              href="${file.url}"
+                              style="display:inline-block; padding:8px 18px; background-color:${ACCENT}; font-family:${DISPLAY_FONT_STACK}; font-weight:900; font-size:12px; text-transform:uppercase; letter-spacing:0.02em; color:#000000; text-decoration:none;"
+                            >
+                              Download
+                            </a>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>`,
+                    )
+                    .join("")}
+                </table>
+              </td>
+            </tr>`
+                : ""
+            }
 
             <!-- Order summary -->
             <tr>

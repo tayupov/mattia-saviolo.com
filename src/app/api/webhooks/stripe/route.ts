@@ -3,10 +3,15 @@ import { Resend } from "resend";
 import { getStripeClient } from "@/lib/stripe";
 import { purchaseConfirmationEmail } from "@/lib/emails/purchase-confirmation";
 import { PLUGINS, type PluginSlug } from "@/data/plugins";
+import { DOWNLOADS } from "@/data/downloads";
 
-// Fulfillment scope for this pass is intentionally limited to a generic
-// confirmation email — no license key generation, no download delivery.
-// See the checkout Server Action for the rest of the purchase flow.
+// Sends the purchase confirmation email, with download links attached (same
+// files as the Stripe success page, see
+// src/app/plugins/sentinella/success/page.tsx) so a customer has a durable
+// way to get the installer even if they close that tab. No license-key
+// mechanism exists, and none is planned until there's real sales volume to
+// justify it. See the checkout Server Action for the rest of the purchase
+// flow.
 export async function POST(request: Request) {
   const stripe = getStripeClient();
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -87,6 +92,7 @@ export async function POST(request: Request) {
         const { subject, text, html } = purchaseConfirmationEmail({
           productName: productName ?? "your purchase",
           amountFormatted,
+          downloads: pluginSlug ? DOWNLOADS[pluginSlug] : undefined,
         });
 
         const resend = new Resend(apiKey);
@@ -100,9 +106,10 @@ export async function POST(request: Request) {
 
         // Still 200 below even on failure: the charge already succeeded by
         // the time this runs, and nothing about retrying the webhook fixes
-        // a flaky email send — the confirmation is purely informational in
-        // this pass (no license key or download gated on it). Revisit if
-        // fulfillment later depends on this email actually arriving.
+        // a flaky email send. The success page is still the fast path for
+        // the download, so a failed send here isn't a total loss — but
+        // check Resend's logs if this fires, since it's now the only
+        // fallback delivery a customer has.
         if (error) {
           console.error("Resend error sending purchase confirmation:", error);
         }

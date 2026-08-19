@@ -168,7 +168,7 @@ const REQUIREMENTS = {
 const FAQ = [
   {
     q: "How do I get started?",
-    a: "Buy a license below, download the plugin, and activate with the key from your confirmation email.",
+    a: "Buy below — installers for Windows and macOS are ready to download immediately after checkout.",
   },
   {
     q: "What do I get when I buy it?",
@@ -180,11 +180,11 @@ const FAQ = [
   },
   {
     q: "Do updates cost extra?",
-    a: "No — updates are free for the life of the license.",
+    a: "No — updates are free for the life.",
   },
   {
     q: "Can I use my own reference tracks?",
-    a: "Yes — alongside the built-in Peak Time, Raw, and Melodic curves, you can upload your own tracks and Sentinella will build a Custom tonal balance target from them.",
+    a: "Yes — alongside the built-in targets, you can upload your own tracks and Sentinella will build a Custom tonal balance target from them.",
   },
 ];
 
@@ -491,11 +491,11 @@ export default async function SentinellaPage({
                 </li>
                 <li className="flex gap-3">
                   <span className="shrink-0 text-accent">—</span>
-                  No subscription, no iLok, no dongle — a single offline key
+                  No subscription, no iLok, no dongle
                 </li>
                 <li className="flex gap-3">
                   <span className="shrink-0 text-accent">—</span>
-                  Free updates for the life of the license
+                  Free updates for the life
                 </li>
                 <li className="flex gap-3">
                   <span className="shrink-0 text-accent">—</span>

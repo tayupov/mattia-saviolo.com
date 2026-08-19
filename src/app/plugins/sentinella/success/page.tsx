@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { osIcon } from "@/components/OsIcons";
 import { getStripeClient } from "@/lib/stripe";
+import { DOWNLOADS, PLUGIN_VERSION, formatFileSize } from "@/data/downloads";
 
 // Transient, personalized page — not indexable, unlike the rest of the site
 // which defaults to indexable via the root layout.
@@ -47,8 +49,49 @@ export default async function SentinellaSuccessPage({
               {customerEmail
                 ? `A confirmation is on its way to ${customerEmail}.`
                 : "A confirmation email is on its way."}{" "}
-              We&rsquo;ll be in touch shortly.
             </p>
+
+            {/* Downloads — instant delivery, no license-key gate yet (see
+                src/data/downloads.ts). Grouped by OS/format so a customer on
+                either platform can find their file at a glance. */}
+            <div className="mt-16 w-full max-w-2xl text-left">
+              <div className="flex items-baseline justify-between gap-4 border-b border-white/10 pb-4">
+                <h2 className="font-display text-2xl uppercase leading-none sm:text-3xl">
+                  Your download.
+                </h2>
+                <span className="shrink-0 font-display text-sm uppercase tracking-widest text-white/40">
+                  v{PLUGIN_VERSION.sentinella}
+                </span>
+              </div>
+              <ul className="mt-6 flex flex-col gap-3">
+                {DOWNLOADS.sentinella.map((file) => (
+                  <li key={file.href}>
+                    <a
+                      href={file.href}
+                      download
+                      className="group flex items-center justify-between gap-4 border border-white/15 bg-white/[0.02] px-5 py-4 transition-colors duration-200 hover:border-accent/60 hover:bg-white/[0.04]"
+                    >
+                      <span className="flex items-center gap-3">
+                        <span className="flex items-center gap-1.5 text-white/50">
+                          {osIcon(file.os)}
+                        </span>
+                        <span className="font-display text-base uppercase tracking-wide">
+                          {file.os} — {file.format}
+                        </span>
+                      </span>
+                      <span className="flex items-center gap-4">
+                        <span className="text-sm text-white/40">
+                          {formatFileSize(file.sizeBytes)}
+                        </span>
+                        <span className="shrink-0 bg-accent px-4 py-2 font-display text-xs uppercase tracking-wide text-black transition-colors group-hover:bg-white">
+                          Download
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </>
         ) : (
           <>
