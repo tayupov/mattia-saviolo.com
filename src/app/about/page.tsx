@@ -110,7 +110,14 @@ export default function AboutPage() {
             <p className="mt-6 text-center text-lg">
               <span className="font-bold">Roman</span>
               <br />
-              <span className="text-white/70">Management</span>
+              <span className="text-white/70">Management &amp; Technology</span>
+              <br />
+              <a
+                href="mailto:mgtm@mattia-saviolo.com"
+                className="mt-1 inline-block text-sm text-white/50 transition-colors hover:text-accent"
+              >
+                mgtm@mattia-saviolo.com
+              </a>
             </p>
           </div>
         </section>

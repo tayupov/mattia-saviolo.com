@@ -42,7 +42,12 @@ const TESTIMONIALS = [
   },
 ];
 
-export function Testimonials() {
+type TestimonialsProps = {
+  theme?: "dark" | "light";
+};
+
+export function Testimonials({ theme = "dark" }: TestimonialsProps) {
+  const light = theme === "light";
   const trackRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -63,7 +68,7 @@ export function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="px-6 py-20 sm:px-12 lg:py-28"
+      className={`px-6 py-20 sm:px-12 lg:py-28 ${light ? "bg-white text-black" : ""}`}
     >
       <h2 className="font-display text-4xl uppercase sm:text-5xl">
         What artists say.
@@ -72,19 +77,21 @@ export function Testimonials() {
       <div
         ref={trackRef}
         onScroll={handleScroll}
-        className="mt-12 flex snap-x snap-mandatory gap-px overflow-x-auto overscroll-x-contain scroll-smooth border border-white/10 bg-white/10 [-ms-overflow-style:none] [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:overflow-visible lg:grid-cols-3 [&::-webkit-scrollbar]:hidden"
+        className={`mt-12 flex snap-x snap-mandatory gap-px overflow-x-auto overscroll-x-contain scroll-smooth border [-ms-overflow-style:none] [scrollbar-width:none] sm:grid sm:grid-cols-2 sm:overflow-visible lg:grid-cols-3 [&::-webkit-scrollbar]:hidden ${
+          light ? "border-black/10 bg-black/10" : "border-white/10 bg-white/10"
+        }`}
       >
         {TESTIMONIALS.map((testimonial) => (
           <figure
             key={testimonial.name}
-            className={`flex w-full shrink-0 snap-start flex-col justify-between gap-8 bg-black p-8 sm:w-auto sm:shrink ${
-              testimonial.featured ? "sm:col-span-2 lg:col-span-2" : ""
-            }`}
+            className={`flex w-full shrink-0 snap-start flex-col justify-between gap-8 p-8 sm:w-auto sm:shrink ${
+              light ? "bg-white text-black" : "bg-background"
+            } ${testimonial.featured ? "sm:col-span-2 lg:col-span-2" : ""}`}
           >
             <blockquote
-              className={`font-display uppercase leading-tight text-white/90 ${
-                testimonial.featured ? "text-3xl sm:text-4xl" : "text-2xl"
-              }`}
+              className={`font-display uppercase leading-tight ${
+                light ? "text-black/90" : "text-white/90"
+              } ${testimonial.featured ? "text-3xl sm:text-4xl" : "text-2xl"}`}
             >
               <span className="text-accent">&ldquo;</span>
               {testimonial.quote}
@@ -92,7 +99,9 @@ export function Testimonials() {
             </blockquote>
             <figcaption className="flex items-center gap-4">
               <div
-                className="relative h-14 w-14 shrink-0 overflow-hidden bg-white/10 grayscale"
+                className={`relative h-14 w-14 shrink-0 overflow-hidden grayscale ${
+                  light ? "bg-black/10" : "bg-white/10"
+                }`}
                 style={{ clipPath: "polygon(12% 0, 100% 0, 88% 100%, 0 100%)" }}
               >
                 <Image
@@ -107,7 +116,7 @@ export function Testimonials() {
                 <p className="font-display text-lg uppercase">
                   {testimonial.name}
                 </p>
-                <p className="mt-1 text-sm text-white/50">
+                <p className={`mt-1 text-sm ${light ? "text-black/50" : "text-white/50"}`}>
                   {testimonial.labels}
                 </p>
               </div>
@@ -124,7 +133,11 @@ export function Testimonials() {
             aria-label={`Go to testimonial ${index + 1}`}
             onClick={() => scrollToIndex(index)}
             className={`h-2 w-2 transition-colors ${
-              index === activeIndex ? "bg-accent" : "bg-white/20"
+              index === activeIndex
+                ? "bg-accent"
+                : light
+                  ? "bg-black/20"
+                  : "bg-white/20"
             }`}
           />
         ))}

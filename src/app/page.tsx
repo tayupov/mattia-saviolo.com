@@ -4,6 +4,7 @@ import { LabelStrip } from "@/components/LabelStrip";
 import { Portfolio } from "@/components/Portfolio";
 import { Showreel } from "@/components/Showreel";
 import { Services } from "@/components/Services";
+import { PluginsSection } from "@/components/PluginsSection";
 import { Testimonials } from "@/components/Testimonials";
 import { ContactSection } from "@/components/ContactSection";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -19,8 +20,9 @@ export default function Home() {
       <SectionDivider direction="up" from="dark" to="light" />
       <Showreel theme="light" />
       <Services theme="light" />
+      <Testimonials theme="light" />
       <SectionDivider direction="down" from="light" to="dark" />
-      <Testimonials />
+      <PluginsSection />
       <SectionDivider direction="up" from="dark" to="light" />
       <ContactSection theme="light" />
       <SiteFooter theme="light" />

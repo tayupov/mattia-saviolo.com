@@ -86,7 +86,7 @@ export function Services({ theme = "dark" }: ServicesProps) {
                   type="button"
                   onClick={() => setOpenIndex(isOpen ? null : index)}
                   aria-expanded={isOpen}
-                  className="flex w-full flex-col gap-2 py-6 text-left sm:cursor-default sm:flex-row sm:items-baseline sm:gap-8"
+                  className="flex w-full flex-col gap-2 py-4 text-left sm:cursor-default sm:flex-row sm:items-start sm:gap-8"
                 >
                   <span
                     className={`font-display text-lg sm:w-12 sm:shrink-0 ${
@@ -96,7 +96,7 @@ export function Services({ theme = "dark" }: ServicesProps) {
                     {service.number}
                   </span>
                   <span className="flex flex-1 items-center justify-between gap-4 sm:justify-start">
-                    <span className="whitespace-pre-line font-display text-2xl uppercase transition-colors sm:w-72 sm:shrink-0 sm:text-3xl sm:group-hover:text-accent">
+                    <span className="whitespace-pre-line font-display text-2xl uppercase sm:w-72 sm:shrink-0 sm:text-3xl">
                       {service.name}
                     </span>
                     <svg
@@ -121,7 +121,7 @@ export function Services({ theme = "dark" }: ServicesProps) {
                 </button>
                 <div
                   className={`grid overflow-hidden transition-all duration-300 ease-out sm:hidden ${
-                    isOpen ? "grid-rows-[1fr] pb-6" : "grid-rows-[0fr]"
+                    isOpen ? "grid-rows-[1fr] pb-4" : "grid-rows-[0fr]"
                   }`}
                 >
                   <div className="min-h-0">

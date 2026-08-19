@@ -20,7 +20,7 @@ export function Showreel({ theme = "dark" }: ShowreelProps) {
         In the studio.
       </h2>
 
-      <div className="relative mx-auto mt-10 aspect-video max-w-4xl overflow-hidden bg-black">
+      <div className="relative mx-auto mt-10 aspect-video max-w-4xl overflow-hidden bg-background">
         {isPlaying ? (
           <video
             className="h-full w-full object-cover"

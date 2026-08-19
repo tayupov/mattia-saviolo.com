@@ -12,8 +12,10 @@ const HEIGHT = 40;
 const BASE = HEIGHT / 2;
 const PEAK = 1;
 
+// dark must stay in sync with --background in globals.css (SVG fill can't
+// reference the CSS custom property directly).
 const FILL: Record<Theme, string> = {
-  dark: "#000000",
+  dark: "#121212",
   light: "#ffffff",
 };
 

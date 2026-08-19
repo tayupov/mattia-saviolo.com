@@ -67,6 +67,7 @@ const SOCIAL_ICONS: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
 
 const EXPLORE_LINKS = [
   { href: "#services", label: "Services" },
+  { href: "/plugins", label: "Plugins" },
   { href: "#testimonials", label: "Testimonials" },
   { href: "#coaching", label: "Coaching" },
   { href: "#contact", label: "Book a session" },
