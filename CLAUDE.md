@@ -84,6 +84,17 @@ likely needs to cover (copy and layout are open to reinvention):
 - **Contact** — form, with privacy/terms links
 - **Footer / social** — Soundcloud, Spotify, Facebook, Instagram
 
+## TODO
+
+- **Move Sentinella plugin installer `.zip`s off git, onto GitHub Releases.**
+  They currently live under `public/downloads/sentinella/` and are committed
+  to the repo (~18MB today across VST3/AU/Windows builds). Every version bump
+  adds another full copy permanently to git history since binaries don't
+  diff/compress, and it also means Vercel deploys/bandwidth carry the weight.
+  GitHub Releases assets give a stable versioned download URL without the
+  repo bloat — update the `href`s in `src/data/downloads.ts` to point at the
+  release asset URLs once this is done.
+
 ## Working conventions
 
 - App Router idioms: Server Components by default, Client Components only where

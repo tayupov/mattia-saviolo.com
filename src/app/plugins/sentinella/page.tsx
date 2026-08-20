@@ -28,7 +28,7 @@ const PLUGIN = {
   // identical to the tagline used on the homepage section and the /plugins
   // list card, so the messaging doesn't drift between pages.
   valueProp:
-    "The reference tool I use in my own studio — now live in your DAW.",
+    "The reference tool I use in my own studio. Now live in your DAW.",
   // Keep in sync by hand with the Stripe Dashboard price referenced by
   // src/data/plugins.ts and with jsonLd.offers.price below — no dynamic
   // Stripe price fetch, staying consistent with this repo's static-content
@@ -220,13 +220,13 @@ export default async function SentinellaPage({
               {PLUGIN.name}
             </h1>
             {/* Hardcoded with a manual <br /> (instead of PLUGIN.valueProp)
-                to force the line break after the em dash on desktop only —
-                keep this in sync with PLUGIN.valueProp if that tagline ever
-                changes. */}
+                to force the line break after the first sentence on desktop
+                only — keep this in sync with PLUGIN.valueProp if that
+                tagline ever changes. */}
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">
-              The reference tool I use in my own studio —{" "}
+              The reference tool I use in my own studio.{" "}
               <br className="hidden lg:block" />
-              now live in your DAW.
+              Now live in your DAW.
             </p>
             {/* Byline — small clipped headshot (same clip-path as the
                 "Built for your target" quote below) so the hero carries a
@@ -341,11 +341,12 @@ export default async function SentinellaPage({
         {/* Feature list — written breakdown, complements the hover-driven
             InteractiveScreenshot above (which is mouse/touch only) with
             something skimmable and indexable. Native <details>/<summary>
-            (same mechanism as the FAQ accordion below), defaulted `open` so
-            it just renders as the old static list out of the box; on
-            desktop the summary is non-interactive (sm:pointer-events-none)
-            so it can never be collapsed. Only below sm does the summary stay
-            clickable, giving mobile a real (open-by-default) accordion. */}
+            (same mechanism as the FAQ accordion below), closed by default so
+            mobile gets a real collapsed accordion. On desktop the summary is
+            non-interactive (sm:pointer-events-none) and the content is
+            force-shown via sm:!block, overriding the browser's closed-state
+            display:none so it still renders as the old static list there
+            regardless of the (irrelevant, unclickable) open/closed state. */}
         <section className="border-t border-white/10 px-6 py-20 sm:px-12 lg:py-28">
           <h2 className="text-center font-display text-4xl uppercase sm:text-5xl">
             See what you&rsquo;re hearing.
@@ -357,7 +358,6 @@ export default async function SentinellaPage({
             {FEATURES.map((feature) => (
               <details
                 key={feature.number}
-                open
                 className="group py-6 sm:border-b sm:border-t sm:border-white/10"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden sm:pointer-events-none sm:cursor-default">
@@ -369,11 +369,11 @@ export default async function SentinellaPage({
                       {feature.name}
                     </h3>
                   </div>
-                  <span className="shrink-0 font-display text-2xl leading-none text-accent transition-transform duration-200 group-open:rotate-45 sm:hidden">
+                  <span className="shrink-0 text-3xl font-thin leading-none text-white transition-transform duration-200 group-open:rotate-45 sm:hidden">
                     +
                   </span>
                 </summary>
-                <div className="pl-12 pt-2 sm:pl-0">
+                <div className="pl-12 pt-2 sm:!block sm:pl-0">
                   <p className="text-white/60">{feature.description}</p>
                 </div>
               </details>

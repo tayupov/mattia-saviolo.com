@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HeroVideo } from "./HeroVideo";
 
 function PluginNudge({ className = "" }: { className?: string }) {
   return (
@@ -46,15 +47,7 @@ export function Hero() {
       id="top"
       className="relative flex min-h-[calc(100svh-73px)] flex-col overflow-hidden"
     >
-      <video
-        className="absolute inset-0 h-full w-full object-cover grayscale"
-        poster="/brand/video-thumbnail.png"
-        src="/brand/hero-loop.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-      />
+      <HeroVideo />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent" />
 

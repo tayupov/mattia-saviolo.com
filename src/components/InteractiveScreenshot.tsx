@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Dark/light theme assets. Both screenshots (and both loop videos) are the
 // same 3420x1860 GUI capture, just in the plugin's other color theme, so the
@@ -123,9 +123,33 @@ export function InteractiveScreenshot() {
   const [active, setActive] = useState<string | null>(null);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [videoFailed, setVideoFailed] = useState(false);
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const activeHotspot = HOTSPOTS.find((hotspot) => hotspot.id === active) ?? null;
   const asset = ASSETS[theme];
   const showVideo = !videoFailed;
+
+  // Some mobile browsers (iOS Low Power Mode, in-app webviews, Low Data
+  // Mode) silently block the `autoplay` attribute — video.play() rejects
+  // with no error event, so this loop would otherwise sit frozen on its
+  // poster frame with no way to start it. Calling play() ourselves gives us
+  // that promise so we can catch the rejection and fall back to a
+  // tap-to-play button. Re-runs on `asset.video` so switching theme (which
+  // remounts the <video> via its `key`) re-attempts autoplay on the new src.
+  useEffect(() => {
+    let cancelled = false;
+    const attempt = videoRef.current?.play();
+    attempt
+      ?.then(() => {
+        if (!cancelled) setAutoplayBlocked(false);
+      })
+      .catch(() => {
+        if (!cancelled) setAutoplayBlocked(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [asset.video]);
 
   return (
     <div>
@@ -202,18 +226,44 @@ export function InteractiveScreenshot() {
               remount on theme switch so the <video> element actually reloads
               its new src/poster instead of silently keeping the old frame. */}
           {showVideo ? (
-            <video
-              key={asset.video}
-              src={asset.video}
-              poster={asset.poster}
-              aria-label={asset.alt}
-              autoPlay
-              loop
-              muted
-              playsInline
-              onError={() => setVideoFailed(true)}
-              className="absolute inset-0 h-full w-full object-cover"
-            />
+            <>
+              <video
+                key={asset.video}
+                ref={videoRef}
+                src={asset.video}
+                poster={asset.poster}
+                aria-label={asset.alt}
+                autoPlay
+                loop
+                muted
+                playsInline
+                onError={() => setVideoFailed(true)}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              {/* Fallback for when the browser rejected the autoplay
+                  attempt above (see the effect near the top of this
+                  component) — same tap-to-play treatment as
+                  Showreel.tsx / PluginVideoPlayer.tsx. */}
+              {autoplayBlocked && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    videoRef.current
+                      ?.play()
+                      .then(() => setAutoplayBlocked(false))
+                      .catch(() => {});
+                  }}
+                  aria-label="Play video"
+                  className="group absolute inset-0 z-20 flex items-center justify-center bg-black/30 transition-colors hover:bg-black/10"
+                >
+                  <span className="flex h-16 w-16 items-center justify-center border-2 border-accent bg-black/60 transition-transform group-hover:scale-110">
+                    <svg viewBox="0 0 24 24" className="ml-1 h-6 w-6 fill-accent">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </span>
+                </button>
+              )}
+            </>
           ) : (
             <Image
               key={asset.image}
